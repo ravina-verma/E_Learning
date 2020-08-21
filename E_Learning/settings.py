@@ -7,18 +7,19 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 BASE_DIR1 = os.path.dirname(os.path.dirname(__file__))
 
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '1&uv8vyndnz%(lg416%lzsv4z^#sq%c%gc0j0#bzo7w)l#070a'
+# SECRET_KEY = '1&uv8vyndnz%(lg416%lzsv4z^#sq%c%gc0j0#bzo7w)l#070a'
 
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '1&uv8vyndnz%(lg416%lzsv4z^#sq%c%gc0j0#bzo7w)l#070a')
 # SECURITY WARNING: don't run with debug turned on in production!
-import dj_database_url
-DEBUG = False
+# DEBUG = True
+DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
-ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com']
+ALLOWED_HOSTS = []
+
 
 
 # Application definition
@@ -47,6 +48,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.cache.FetchFromCacheMiddleware',
     'django.middleware.cache.UpdateCacheMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'E_Learning.urls'
@@ -75,17 +77,9 @@ WSGI_APPLICATION = 'E_Learning.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': os.path.join(BASE_DIR1, 'db.sqlite3'),
-    # }
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'djangogirls',
-        'USER': 'name',
-        'PASSWORD': '',
-        'HOST': 'localhost',
-        'PORT': '',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR1, 'db.sqlite3'),
     }
 }
 
@@ -131,7 +125,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR1, 'static')
 ]
 VENV_PATH = os.path.dirname(BASE_DIR)
-STATIC_ROOT = os.path.join(VENV_PATH, 'static_root')
+# STATIC_ROOT = os.path.join(VENV_PATH, 'static_root')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,	'media/')
@@ -155,5 +150,8 @@ REST_FRAMEWORK = {
 
 
 
+import dj_database_url
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
