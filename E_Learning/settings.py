@@ -1,11 +1,5 @@
 import os
 from pathlib import Path
-
-import django_heroku
-# Activate Django-Heroku.
-django_heroku.settings(locals())
-
-import dj_database_url
 from django.urls import reverse_lazy
 LOGIN_REDIRECT_URL = reverse_lazy('student_course_list')
 
@@ -20,10 +14,9 @@ BASE_DIR1 = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = '1&uv8vyndnz%(lg416%lzsv4z^#sq%c%gc0j0#bzo7w)l#070a'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = True
 
-DEBUG = False
-
-ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -52,7 +45,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.cache.FetchFromCacheMiddleware',
     'django.middleware.cache.UpdateCacheMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'E_Learning.urls'
@@ -82,12 +74,8 @@ WSGI_APPLICATION = 'E_Learning.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'djangogirls',
-        'USER': 'name',
-        'PASSWORD': '',
-        'HOST': 'localhost',
-        'PORT': '',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR1, 'db.sqlite3'),
     }
 }
 
@@ -154,8 +142,3 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ]
 }
-
-
-
-db_from_env = dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(db_from_env)
