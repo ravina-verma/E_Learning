@@ -1,0 +1,14 @@
+.header{
+    background-color: #059900;
+    color: white;
+}
+.logo{
+    outline: none;
+    color: white;
+    font-size: 25px;
+    text-decoration:none;
+}
+.menu a{
+    color: white;
+    text-decoration:none;
+}
