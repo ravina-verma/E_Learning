@@ -1,5 +1,10 @@
 import os
 from pathlib import Path
+
+import django_heroku
+# Activate Django-Heroku.
+django_heroku.settings(locals())
+
 import dj_database_url
 from django.urls import reverse_lazy
 LOGIN_REDIRECT_URL = reverse_lazy('student_course_list')
