@@ -6,6 +6,7 @@ LOGIN_REDIRECT_URL = reverse_lazy('student_course_list')
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 BASE_DIR1 = os.path.dirname(os.path.dirname(__file__))
 
+import dj_database_url
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -14,9 +15,8 @@ BASE_DIR1 = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = '1&uv8vyndnz%(lg416%lzsv4z^#sq%c%gc0j0#bzo7w)l#070a'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+DEBUG = False
+ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com']
 
 
 # Application definition
@@ -73,9 +73,17 @@ WSGI_APPLICATION = 'E_Learning.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR1, 'db.sqlite3'),
+    # }
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR1, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'djangogirls',
+        'USER': 'name',
+        'PASSWORD': '',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
 
