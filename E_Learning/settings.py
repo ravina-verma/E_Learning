@@ -3,20 +3,18 @@ from pathlib import Path
 from django.urls import reverse_lazy
 LOGIN_REDIRECT_URL = reverse_lazy('student_course_list')
 
-BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
-BASE_DIR1 = os.path.dirname(os.path.dirname(__file__))
+# BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = '1&uv8vyndnz%(lg416%lzsv4z^#sq%c%gc0j0#bzo7w)l#070a'
+SECRET_KEY = '1&uv8vyndnz%(lg416%lzsv4z^#sq%c%gc0j0#bzo7w)l#070a'
 
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '1&uv8vyndnz%(lg416%lzsv4z^#sq%c%gc0j0#bzo7w)l#070a')
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
-DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
+DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -48,7 +46,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.cache.FetchFromCacheMiddleware',
     'django.middleware.cache.UpdateCacheMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'E_Learning.urls'
@@ -79,7 +76,7 @@ WSGI_APPLICATION = 'E_Learning.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR1, 'db.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -122,7 +119,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR1, 'static')
+    os.path.join(BASE_DIR, 'static')
 ]
 VENV_PATH = os.path.dirname(BASE_DIR)
 # STATIC_ROOT = os.path.join(VENV_PATH, 'static_root')
@@ -147,11 +144,3 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ]
 }
-
-
-
-import dj_database_url
-db_from_env = dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(db_from_env)
-
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
